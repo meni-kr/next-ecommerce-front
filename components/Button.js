@@ -1,3 +1,4 @@
+import { primaryColor } from "@/lib/colors";
 import styled, { css } from "styled-components"
 
 export const ButtonStyle = css`
@@ -8,23 +9,30 @@ border:0;
     display: inline-flex;
     align-items: center;
     text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     svg{
        height: 16px;
        margin-right: 5px; 
     }
-    ${props => props.white === 'y' && props.outline == 'n' && css`
+    ${props => props.white && !props.outline && css`
         background-color: #fff;
         color: #000;
         `}
-    ${props => props.white === 'y' && props.outline == 'y' && css`
+    ${props => props.white && props.outline  && css`
         background-color: transparent;
         color: #fff;
         border: 1px solid #fff;
         `}
-    ${props => props.primary === 'y' && css`
-        background-color: #5542F6;
-        border: 1px solid #5542F6;
+    ${props => props.primary && !props.outline && css`
+        background-color: ${primaryColor};
+        border: 1px solid ${primaryColor};
         color: #fff;
+        `}
+    ${props => props.primary && props.outline && css`
+        background-color: transparent;
+        border: 1px solid ${primaryColor};
+        color: ${primaryColor};
         `}
     ${props => props.size === 'l' && css`
         font-size:1.2rem;
