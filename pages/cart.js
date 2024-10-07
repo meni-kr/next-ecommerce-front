@@ -6,6 +6,7 @@ import { CartContext } from "@/components/CartContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Table from "@/components/Table";
+import Input from "@/components/Input";
 
 const ColumnsWrapper = styled.div`
     display: grid;
@@ -44,27 +45,41 @@ const QuantityLabel = styled.span`
     padding: 0 3px;
 `;
 
+const CityHolder = styled.div`
+    display: flex;
+    gap: 5px;
+`;
+
 export default function CartPage() {
-    const { cartProducts,addProduct,removeProduct } = useContext(CartContext)
+    const { cartProducts, addProduct, removeProduct } = useContext(CartContext)
     const [products, setProducts] = useState([])
-    useEffect( () => {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [city, setCity] = useState('')
+    const [postalCode, setPostalCode] = useState('')
+    const [streetAddress, setStreetAddress] = useState('')
+    const [country, setCountry] = useState('')
+
+    useEffect(() => {
         if (cartProducts.length > 0) {
             axios.post('/api/cart', { ids: cartProducts })
                 .then(res => {
                     setProducts(res.data)
                 })
+        } else {
+            setProducts([])
         }
     }, [cartProducts])
 
-    function moreOfThisProduct(productId){
+    function moreOfThisProduct(productId) {
         addProduct(productId)
     }
 
-    function lessOfThisProduct(productId){
+    function lessOfThisProduct(productId) {
         removeProduct(productId)
     }
     let total = 0
-    for(const productId of cartProducts){
+    for (const productId of cartProducts) {
         const price = products.find(p => p._id === productId)?.price || 0
         total += price
     }
@@ -121,9 +136,44 @@ export default function CartPage() {
                     {!!cartProducts?.length && (
                         <Box>
                             <h2>Order information</h2>
-                            <input type="text" placeholder="Address" />
-                            <input type="text" placeholder="Address 2" />
-                            <Button $black $block >Continue to payment</Button>
+                            <form method="post" action="/api/checkout">
+                                <Input type="text"
+                                    placeholder="Name"
+                                    value={name}
+                                    name="name"
+                                    onChange={e => setName(e.target.value)} />
+                                <Input type="text"
+                                    placeholder="Email"
+                                    value={email}
+                                    name="email"
+                                    onChange={e => setEmail(e.target.value)} />
+                                <CityHolder>
+                                    <Input type="text"
+                                        placeholder="City"
+                                        value={city}
+                                        name="city"
+                                        onChange={e => setCity(e.target.value)} />
+                                    <Input type="text"
+                                        placeholder="Postal Code"
+                                        value={postalCode}
+                                        name="postalCode"
+                                        onChange={e => setPostalCode(e.target.value)} />
+                                </CityHolder>
+                                <Input type="text"
+                                    placeholder="Street Address"
+                                    value={streetAddress}
+                                    name="streetAddress"
+                                    onChange={e => setStreetAddress(e.target.value)} />
+                                <Input type="text"
+                                    placeholder="country"
+                                    value={country}
+                                    name="country"
+                                    onChange={e => setCountry(e.target.value)} />
+                                <input type="hidden"
+                                    name="products"
+                                    value={cartProducts.join(',')} />
+                                <Button type="submit" $black $block>Continue to payment</Button>
+                            </form>
                         </Box>
                     )}
 
