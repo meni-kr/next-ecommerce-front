@@ -40,17 +40,35 @@ const ProductImgBox = styled.div`
         }
 `;
 
+const QuantityLabel = styled.span`
+    padding: 0 3px;
+`;
+
 export default function CartPage() {
-    const { cartProducts } = useContext(CartContext)
+    const { cartProducts,addProduct,removeProduct } = useContext(CartContext)
     const [products, setProducts] = useState([])
-    useEffect(() => {
+    useEffect( () => {
         if (cartProducts.length > 0) {
             axios.post('/api/cart', { ids: cartProducts })
                 .then(res => {
                     setProducts(res.data)
                 })
         }
-    }, [])
+    }, [cartProducts])
+
+    function moreOfThisProduct(productId){
+        addProduct(productId)
+    }
+
+    function lessOfThisProduct(productId){
+        removeProduct(productId)
+    }
+    let total = 0
+    for(const productId of cartProducts){
+        const price = products.find(p => p._id === productId)?.price || 0
+        total += price
+    }
+
     return (
         <>
             <Header />
@@ -80,13 +98,22 @@ export default function CartPage() {
                                                 {product.title}
                                             </ProductInfoCell>
                                             <td>
-                                                {cartProducts.filter(id => id === product._id).length}
+                                                <Button onClick={() => lessOfThisProduct(product._id)}>-</Button>
+                                                <QuantityLabel>
+                                                    {cartProducts.filter(id => id === product._id).length}
+                                                </QuantityLabel>
+                                                <Button onClick={() => moreOfThisProduct(product._id)}>+</Button>
                                             </td>
                                             <td>
                                                 ${cartProducts.filter(id => id === product._id).length * product.price}
                                             </td>
                                         </tr>
                                     ))}
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>${total}</td>
+                                    </tr>
                                 </tbody>
                             </Table>
                         )}
