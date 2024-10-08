@@ -15,11 +15,11 @@ export const ButtonStyle = css`
        height: 16px;
        margin-right: 5px; 
     }
-    ${props => props.$white === 'y' && props.$outline === 'n' && css`
+    ${props => props.$white && !props.$outline && css`
         background-color: #fff;
         color: #000;
         `}
-    ${props => props.$white === 'y' && props.$outline === 'y' && css`
+    ${props => props.$white && props.$outline && css`
         background-color: transparent;
         color: #fff;
         border: 1px solid #fff;
@@ -33,12 +33,12 @@ export const ButtonStyle = css`
         color: #000;
         border: 1px solid #000;
         `}    
-    ${props => props.$primary === 'y' && props.$outline === 'n' && css`
+    ${props => props.$primary && !props.$outline && css`
         background-color: ${primaryColor};
         border: 1px solid ${primaryColor};
         color: #fff;
         `}
-    ${props => props.$primary === 'y' && props.$outline === 'y' && css`
+    ${props => props.$primary && props.$outline && css`
         background-color: transparent;
         border: 1px solid ${primaryColor};
         color: ${primaryColor};

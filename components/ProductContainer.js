@@ -57,7 +57,7 @@ export default function ProductContainer({ _id, title, description, price, image
         <ContainerWrapper>
             <WhiteContainer href={url}>
                 <div>
-                    <img src={images[0]} alt={title} />
+                    <img src={images?.[0]} alt={title} />
                 </div>
             </WhiteContainer>
             <ProductInfoContainer>
@@ -66,7 +66,7 @@ export default function ProductContainer({ _id, title, description, price, image
                     <Price>
                         ${price}
                     </Price>
-                        <Button onClick={()=>addProduct(_id)} $primary={'y'} $outline={'y'}>Add to cart</Button>
+                        <Button onClick={()=>addProduct(_id)} $primary $outline>Add to cart</Button>
                 </PriceRow>
             </ProductInfoContainer>
         </ContainerWrapper>
