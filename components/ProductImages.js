@@ -23,7 +23,7 @@ const ImageButtons = styled.div`
 
 const ImageButton = styled.div`
     border:2px solid #ccc;
-        ${props => props.active ? `
+        ${props => props.$active ? `
             border-color:#ccc;
             scale:1.1;
             `: `
@@ -49,7 +49,7 @@ export default function ProductImages({ images }) {
                 {
                     images?.map((img, idx) => (
                         <ImageButton key={idx}
-                            active={img === activeImage}
+                            $active={img === activeImage}
                             onClick={() => setActiveImage(img)} >
                             <Image src={img} alt={''} />
                         </ImageButton>

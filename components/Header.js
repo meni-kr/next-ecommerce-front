@@ -13,7 +13,7 @@ const Logo = styled(Link)`
     color: #fff;
     text-decoration:none;
     position: relative;
-    z-index:3;
+    z-index:6;
 `;
 
 const Wrapper = styled.div`
@@ -41,6 +41,7 @@ const StyledNav = styled.nav`
     right: 0;
     padding: 70px 20px 20px;
     background-color: #222;
+    z-index:5;
     @media screen and (min-width: 768px){
         display: flex;
         position: static;
@@ -66,7 +67,7 @@ const NavButton = styled.button`
     color: white;
     cursor: pointer;
     position: relative;
-    z-index:3;
+    z-index:6;
     @media screen and (min-width: 768px){
         display: none;
     }
@@ -80,7 +81,6 @@ export default function Header() {
 
     function toggleNav(){
         setMobileNavActive(mobileNavActive === 'close' ? 'open' : 'close')
-        console.log(mobileNavActive)
     }
 
     return (
